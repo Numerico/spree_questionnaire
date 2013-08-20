@@ -1,7 +1,7 @@
 class QuestionOptionInteger < QuestionOption
 
   def value
-    read_attribute(:value).to_i
+    super().to_i
   end
 
 end

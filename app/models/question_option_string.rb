@@ -1,7 +1,7 @@
 class QuestionOptionString < QuestionOption
 
   def value
-    read_attribute(:value).to_s
+    super().to_s
   end
 
 end
