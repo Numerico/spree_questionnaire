@@ -1,0 +1,3 @@
+class QuestionOptionInteger < QuestionOption
+  
+end

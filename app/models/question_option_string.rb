@@ -1,0 +1,3 @@
+class QuestionOptionString < QuestionOption
+  
+end

@@ -16,8 +16,12 @@ FactoryGirl.define do
   end
 
   factory :question_option do
-    type "string"
-    # TODO value "hello world"
+  end
+
+  factory :question_option_integer do
+  end
+
+  factory :question_option_string do
   end
 
 end
