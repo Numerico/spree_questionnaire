@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Questionnaire do
 
-  it "allows to add questions" do
+  it "can add questions" do
     questionnaire = create :questionnaire
     3.times do
       questionnaire.questions << create(:question)
