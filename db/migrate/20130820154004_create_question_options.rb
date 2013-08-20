@@ -2,7 +2,7 @@ class CreateQuestionOptions < ActiveRecord::Migration
   def change
     create_table :question_options do |t|
       t.string :type
-      t.references{polymorphic} :value
+      t.references :value, :polymorphic => true
       t.references :question
 
       t.timestamps
