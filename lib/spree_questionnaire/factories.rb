@@ -19,9 +19,11 @@ FactoryGirl.define do
   end
 
   factory :question_option_integer do
+    value "1"
   end
 
   factory :question_option_string do
+    value "A"
   end
 
 end

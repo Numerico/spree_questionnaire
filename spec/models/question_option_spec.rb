@@ -12,4 +12,11 @@ describe QuestionOption do
     end
   end
 
+  it "gets the right values" do
+    int = create :question_option_integer
+    expect(int.value).to be_a_kind_of(Integer)
+    str = create :question_option_string
+    expect(str.value).to be_a_kind_of(String)
+  end
+
 end
