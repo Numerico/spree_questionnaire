@@ -12,11 +12,18 @@ describe QuestionOption do
     end
   end
 
-  it "gets the right values" do
+  it "has an integer type" do
     int = create :question_option_integer
     expect(int.value).to be_a_kind_of(Integer)
+  end
+  it "has a string type" do
     str = create :question_option_string
     expect(str.value).to be_a_kind_of(String)
+  end
+
+  it "has a list type" do
+    q = create :question_option_list
+    expect(q.value).to be_a_kind_of(Array)
   end
 
 end

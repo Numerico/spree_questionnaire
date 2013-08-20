@@ -26,4 +26,8 @@ FactoryGirl.define do
     value "A"
   end
 
+  factory :question_option_list do
+    value ["1", "2", "3"]
+  end
+
 end
