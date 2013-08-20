@@ -1,7 +1,6 @@
-SpreeQuestionnaire
-==================
+Spree Questionnaire Extension
 
-Introduction goes here.
+Spree extension to manage a set of questions
 
 Installation
 ------------
@@ -35,6 +34,3 @@ Simply add this require statement to your spec_helper:
 
 ```ruby
 require 'spree_questionnaire/factories'
-```
-
-Copyright (c) 2013 [name of extension creator], released under the New BSD License
