@@ -8,3 +8,5 @@ gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'
 gem 'therubyracer', :platforms => :ruby
 
 gemspec
+
+gem 'simple_form'

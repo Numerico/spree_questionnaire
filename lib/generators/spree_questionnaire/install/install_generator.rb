@@ -26,6 +26,11 @@ module SpreeQuestionnaire
           puts 'Skipping rake db:migrate, don\'t forget to run it!'
         end
       end
+
+      def install_simple_form
+        run 'bundle exec rails generate simple_form:install'
+      end
+
     end
   end
 end
