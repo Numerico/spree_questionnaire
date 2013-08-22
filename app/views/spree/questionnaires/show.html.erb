@@ -1,3 +1,7 @@
-<%= simple_form_for [@questionnaire, @question, @question_option.becomes(QuestionOption)] do |f| %>
-  <%= f.input :value %>
+<%= simple_form_for [@questionnaire, @question] do |f| %>
+  <% @question.question_options.each do |question_option| %>
+    <%= simple_fields_for question_option do |ff| %>
+      <%= ff.input :value %>
+    <% end %>
+  <% end %>
 <% end %>

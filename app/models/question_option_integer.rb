@@ -1,7 +1,11 @@
 class QuestionOptionInteger < QuestionOption
 
+  def value=(value)
+    self[:value] = value.to_str
+  end
+
   def value
-    super().to_i
+    self[:value].to_i
   end
 
 end
