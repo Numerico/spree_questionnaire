@@ -1,4 +1,4 @@
-class QuestionOptionList < QuestionOption
+class QuestionOptionArray < QuestionOption
 
   def value=(value)
     super(JSON.dump(value))

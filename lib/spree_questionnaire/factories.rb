@@ -19,6 +19,9 @@ FactoryGirl.define do
       factory :question_with_int do
         question_options { create_list :question_option_integer, 1 }
       end
+      factory :question_with_array do
+        question_options { create_list :question_option_array, 1 }
+      end
     end
   end
 
@@ -33,7 +36,7 @@ FactoryGirl.define do
     value "A"
   end
 
-  factory :question_option_list do
+  factory :question_option_array do
     value ["1", "2", "3"]
   end
 

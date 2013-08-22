@@ -21,8 +21,8 @@ describe QuestionOption do
     expect(str.value).to be_a_kind_of(String)
   end
 
-  it "has a list type" do
-    q = create :question_option_list
+  it "has an array type" do
+    q = create :question_option_array
     expect(q.value).to be_a_kind_of(Array)
   end
 

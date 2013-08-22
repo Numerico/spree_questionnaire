@@ -11,7 +11,13 @@ describe "questionnaire/show.html.erb" do
   it "can display number inputs" do
     question = create :question_with_int
     visit spree.questionnaire_path
-    page.should have_selector 'input[type="number"]'
+    page.should have_selector 'form input[type="number"]'
+  end
+
+  it "can display list inputs" do
+    question = create :question_with_array
+    visit spree.questionnaire_path
+    page.should have_selector 'form select'
   end
 
 end
