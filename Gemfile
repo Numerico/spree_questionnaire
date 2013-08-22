@@ -10,3 +10,6 @@ gem 'therubyracer', :platforms => :ruby
 gemspec
 
 gem 'simple_form'
+
+gem "debugger"
+gem "launchy"

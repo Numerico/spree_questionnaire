@@ -13,6 +13,10 @@ FactoryGirl.define do
   factory :question do
     text "is this a test question?" # TODO ffaker
     sequence :position
+    factory :question_with_options do
+      questionnaire
+      question_options { create_list :question_option_integer, 1 }
+    end
   end
 
   factory :question_option do
