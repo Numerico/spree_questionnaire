@@ -25,6 +25,12 @@ FactoryGirl.define do
       factory :question_with_hash do
         question_options { create_list :question_option_hash, 1 }
       end
+      factory :questions_with_option do
+        question_options { create_list :question_option, 2 }
+      end
+      factory :questions_with_hash do
+        question_options { create_list :question_option_hash, 2 }
+      end
     end
   end
 

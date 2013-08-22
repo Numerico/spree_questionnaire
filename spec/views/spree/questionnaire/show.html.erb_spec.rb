@@ -31,4 +31,20 @@ describe "questionnaire/show.html.erb" do
     end
   end
 
+  it "can display multiple inputs" do
+    question = create :questions_with_option
+    visit spree.questionnaire_path
+    within "#wrapper" do
+      page.should have_selector('form textarea', count: 2)
+    end
+  end
+
+  it "can display multiple hashs" do
+    question = create :questions_with_hash
+    visit spree.questionnaire_path
+    within "#wrapper" do
+      page.should have_selector('form select', count: 2)
+    end
+  end
+
 end
