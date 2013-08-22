@@ -1,0 +1,7 @@
+<%= simple_fields_for option do |ff| %>
+  <% if option.instance_of? QuestionOptionInteger %>
+    <%= ff.input :value, :as => :integer  %>
+  <% else %>
+    <%= ff.input :value %>
+  <% end %>
+<% end %>
