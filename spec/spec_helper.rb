@@ -78,4 +78,8 @@ RSpec.configure do |config|
   end
 
   config.fail_fast = ENV['FAIL_FAST'] || false
+
+  # Capybara
+  config.include Capybara::DSL
+
 end
