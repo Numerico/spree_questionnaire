@@ -22,6 +22,9 @@ FactoryGirl.define do
       factory :question_with_array do
         question_options { create_list :question_option_array, 1 }
       end
+      factory :question_with_hash do
+        question_options { create_list :question_option_hash, 1 }
+      end
     end
   end
 
@@ -38,6 +41,15 @@ FactoryGirl.define do
 
   factory :question_option_array do
     value ["1", "2", "3"]
+  end
+
+  factory :question_option_hash do
+    value { {
+      # key => value
+      "1" => "one",
+      "2" => "two",
+      "3" => "three"
+    } }
   end
 
 end

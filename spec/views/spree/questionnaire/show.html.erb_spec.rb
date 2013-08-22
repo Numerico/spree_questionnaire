@@ -22,4 +22,13 @@ describe "questionnaire/show.html.erb" do
     end
   end
 
+  it "can display hash inputs" do
+    question = create :question_with_hash
+    visit spree.questionnaire_path
+    within "#wrapper" do
+      page.should have_selector 'select option[value="2"]'
+      find('option[value="2"]').should have_content("two")
+    end
+  end
+
 end

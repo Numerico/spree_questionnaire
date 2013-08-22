@@ -1,8 +1,10 @@
 <%= simple_fields_for option do |ff| %>
   <% if option.instance_of? QuestionOptionInteger %>
     <%= ff.input :value, :as => :integer  %>
-  <% elsif option.instance_of? QuestionOptionArray %>
+  <% elsif option.instance_of?(QuestionOptionArray) %>
     <%= ff.input :value, :collection => option.value %>
+  <% elsif option.instance_of?(QuestionOptionHash) %>
+    <%= ff.input :value, :collection => option.value, :label_method => :second, :value_method => :first %>
   <% else %>
     <%= ff.input :value %>
   <% end %>
