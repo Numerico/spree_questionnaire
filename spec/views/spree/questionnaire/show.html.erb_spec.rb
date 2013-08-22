@@ -14,7 +14,7 @@ describe "questionnaire/show.html.erb" do
     page.should have_selector 'form input[type="number"]'
   end
 
-  it "can display list inputs" do
+  it "can display array inputs" do
     question = create :question_with_array
     visit spree.questionnaire_path
     within "#wrapper" do
