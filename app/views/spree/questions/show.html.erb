@@ -1,3 +1,6 @@
+<div class="question-text">
+  <p><%= @question.text %></p>
+</div>
 <%= simple_form_for [@questionnaire, @question] do |f| %>
   <% @question.question_options.each do |question_option| %>
     <%= render :partial => 'question_option_value', :locals => { :option => question_option } %>

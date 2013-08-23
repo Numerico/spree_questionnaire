@@ -15,7 +15,7 @@ FactoryGirl.define do
   end
 
   factory :question do
-    text "is this a test question?" # TODO ffaker
+    text { Faker::Lorem.paragraph }
     sequence :position
     factory :question_with_option do
       questionnaire
