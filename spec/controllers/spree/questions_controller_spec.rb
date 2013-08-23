@@ -10,4 +10,15 @@ describe Spree::QuestionsController do
     end
   end
 
+  describe "PUT 'update'" do
+    render_views
+    it "redirects to next question" do
+      questionnaire = create :questionnaire_with_questions
+      question = questionnaire.ordered_questions.first
+      visit spree.questionnaire_question_path question
+      click_button 'Update Question'
+      current_path.should eq(spree.questionnaire_question_path(question.next))
+    end
+  end
+
 end

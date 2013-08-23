@@ -1,20 +1,22 @@
-<div class="question-form-before">
-  <% if !@question.is_first? %>
-    <%= link_to "previous", spree.questionnaire_question_path(@previous) unless @previous.nil? %>
-  <% else %>
-    <%= link_to "previous", spree.questionnaire_path %>
-  <% end %>
-</div>
-<div  class="question-form">
-  <div class="question-text">
-    <p><%= @question.text %></p>
-  </div>
-  <%= simple_form_for [:questionnaire, @question] do |f| %>
-    <% @question.question_options.each do |question_option| %>
-      <%= render :partial => 'question_option_value', :locals => { :option => question_option } %>
+<%= simple_form_for [:questionnaire, @question] do |f| %>
+  <div class="question-form-before">
+    <% if !@question.is_first? %>
+      <%= link_to "previous", spree.questionnaire_question_path(@previous) unless @previous.nil? %>
+    <% else %>
+      <%= link_to "previous", spree.questionnaire_path %>
     <% end %>
-  <% end %>
-</div>
-<div class="question-form-after">
-  <%= link_to "next", spree.questionnaire_question_path(@next) unless @next.nil? %>
-</div>
+  </div>
+  <div  class="question-form">
+    <div class="question-text">
+      <p><%= @question.text %></p>
+    </div>
+    
+      <% @question.question_options.each do |question_option| %>
+        <%= render :partial => 'question_option_value', :locals => { :option => question_option } %>
+      <% end %>
+    
+  </div>
+  <div class="question-form-after">
+    <%= f.button :submit %>
+  </div>
+<% end %>

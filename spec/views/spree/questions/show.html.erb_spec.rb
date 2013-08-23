@@ -69,13 +69,21 @@ describe "questions/show.html.erb" do
       page.should have_selector 'form[action="'+spree.questionnaire_question_path(question)+'"]'
     end
 
-    it "has back and forth links" do
+    it "has back links" do
       questionnaire = create :questionnaire_with_questions
       question = questionnaire.questions[2]
       visit spree.questionnaire_question_path question
       within "#wrapper" do
         page.should have_selector 'div.question-form-before a[href="'+spree.questionnaire_question_path(question.previous)+'"]'
-        page.should have_selector 'div.question-form-after a[href="'+spree.questionnaire_question_path(question.next)+'"]'
+      end
+    end
+
+    it "uses a submit as forth link" do
+      questionnaire = create :questionnaire_with_questions
+      question = questionnaire.questions[2]
+      visit spree.questionnaire_question_path question
+      within "#wrapper" do
+        page.should have_selector 'div.question-form-after input[type="submit"]'
       end
     end
 
