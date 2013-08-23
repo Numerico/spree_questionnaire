@@ -1,3 +1,8 @@
-<div class="questionnaire">
-  <p><%= @questionnaire.introduction %></p>
+<div id="questionnaire">
+  <div id="introduction">
+    <p><%= @questionnaire.introduction %></p>
+  </div>
+  <div class="question_forward">
+    <%= link_to "Start", spree.questionnaire_question_path(@question_one) if @question_one %>
+  </div>
 </div>
