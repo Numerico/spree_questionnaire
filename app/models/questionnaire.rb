@@ -6,4 +6,8 @@ class Questionnaire < ActiveRecord::Base
     self.questions.order("position")
   end
 
+  def self.get_questionnaire
+    self.first
+  end
+
 end

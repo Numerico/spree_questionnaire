@@ -5,6 +5,7 @@ FactoryGirl.define do
   # require 'spree_questionnaire/factories'
 
   factory :questionnaire do
+    introduction { Faker::Lorem.paragraph }
     factory :questionnaire_with_questions do
       questions { create_list :question, 5 }
     end
