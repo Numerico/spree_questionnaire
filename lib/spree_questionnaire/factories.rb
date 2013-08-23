@@ -6,6 +6,9 @@ FactoryGirl.define do
 
   factory :questionnaire do
     introduction { Faker::Lorem.paragraph }
+    factory :questionnaire_html do
+      introduction "<h1>title1</h1><h2>title2</h2>"
+    end
     factory :questionnaire_with_questions do
       questions { create_list :question, 5 }
     end
