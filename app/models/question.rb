@@ -11,6 +11,10 @@ class Question < ActiveRecord::Base
     self.questionnaire.questions.where(position: self.position+1).first
   end
 
+  def is_first?
+    self == self.questionnaire.ordered_questions.first
+  end
+
   def self.get_question(id)
     Questionnaire.get_questionnaire.questions.where(id: id).first
   end

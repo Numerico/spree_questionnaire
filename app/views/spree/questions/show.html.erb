@@ -1,5 +1,9 @@
 <div class="question-form-before">
-  <%= link_to "previous", spree.questionnaire_question_path(@previous) unless @previous.nil? %>
+  <% if !@question.is_first? %>
+    <%= link_to "previous", spree.questionnaire_question_path(@previous) unless @previous.nil? %>
+  <% else %>
+    <%= link_to "previous", spree.questionnaire_path %>
+  <% end %>
 </div>
 <div  class="question-form">
   <div class="question-text">
