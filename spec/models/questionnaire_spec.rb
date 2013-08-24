@@ -23,4 +23,14 @@ describe Questionnaire do
     end
   end
 
+  it "belongs to a user" do
+    questionnaire = create :questionnaire
+    expect(questionnaire.user).to be_a_kind_of(Spree::User)
+  end
+
+  it "is a model if not associated to any user" do
+    questionnaire = create :questionnaire_model
+    expect(questionnaire.user).to be(nil)
+  end
+
 end
