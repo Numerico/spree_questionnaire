@@ -5,12 +5,7 @@ FactoryGirl.define do
   # require 'spree_questionnaire/factories'
 
   factory :questionnaire do
-    user
     introduction { Faker::Lorem.paragraph }
-    factory :questionnaire_model do
-      is_model true
-      user nil
-    end
     factory :questionnaire_html do
       introduction "<h1>title1</h1><h2>title2</h2>"
     end
