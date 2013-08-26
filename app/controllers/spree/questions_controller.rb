@@ -4,6 +4,7 @@ class Spree::QuestionsController < Spree::StoreController
     @question = Question.get_question params[:id]
     @next = @question.next
     @previous = @question.previous
+    @question.question_options.each {|option| option.question_option_answers.build }
   end
 
   def update

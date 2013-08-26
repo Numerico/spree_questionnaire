@@ -1,0 +1,10 @@
+<% question_option = fff.object.question_option %>
+<% if question_option.instance_of? QuestionOptionInteger %>
+  <%= fff.input :answer, :as => :integer  %>
+<% elsif question_option.instance_of?(QuestionOptionArray) %>
+  <%= fff.input :answer, :collection => question_option.value %>
+<% elsif question_option.instance_of?(QuestionOptionHash) %>
+  <%= fff.input :answer, :collection => question_option.value, :label_method => :second, :value_method => :first %>
+<% else %>
+  <%= fff.input :answer %>
+<% end %>

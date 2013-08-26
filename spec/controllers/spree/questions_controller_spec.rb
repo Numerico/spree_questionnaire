@@ -26,9 +26,10 @@ describe Spree::QuestionsController do
       question = questionnaire.ordered_questions.first
       option = question.question_options.first
       visit spree.questionnaire_question_path question
-      fill_in 'question[question_options_attributes][0][answer]', :with => 'input entered'
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => 'input entered'
       click_button 'Update Question'
-      expect(option.reload.answer).to eq('input entered')
+      answer = option.question_option_answers.first
+      expect(answer.answer).to eq('input entered')
     end
 
     it "can store multiple answers" do
@@ -36,11 +37,12 @@ describe Spree::QuestionsController do
       question = questionnaire.ordered_questions.first
       visit spree.questionnaire_question_path question
       question.question_options.each_with_index do |option, index|
-        fill_in 'question[question_options_attributes]['+index.to_s+'][answer]', :with => 'input entered'
+        fill_in 'question[question_options_attributes]['+index.to_s+'][question_option_answers_attributes][0][answer]', :with => 'input entered'
       end
       click_button 'Update Question'
       question.question_options.reload.each do |option|
-        expect(option.answer).to eq('input entered')
+        answer = option.question_option_answers.first
+        expect(answer.answer).to eq('input entered')
       end
     end
 
@@ -49,11 +51,12 @@ describe Spree::QuestionsController do
       question = questionnaire.ordered_questions.first
       visit spree.questionnaire_question_path question
       question.question_options.each_with_index do |option, index|
-        select 'two', :from => 'question[question_options_attributes]['+index.to_s+'][answer]'
+        select 'two', :from => 'question[question_options_attributes]['+index.to_s+'][question_option_answers_attributes][0][answer]'
       end
       click_button 'Update Question'
-      question.question_options.reload.each do |option|
-        expect(option.answer).to eq("2")
+      question.question_options.each do |option|
+        answer = option.question_option_answers.first
+        expect(answer.answer).to eq("2")
       end
     end
 
