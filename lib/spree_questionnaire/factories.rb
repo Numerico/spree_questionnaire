@@ -48,20 +48,19 @@ FactoryGirl.define do
   end
 
   factory :question_option do
+    factory :question_option_related do
+      question
+    end
   end
-
   factory :question_option_integer do
     value "1"
   end
-
   factory :question_option_string do
     value "A"
   end
-
   factory :question_option_array do
     value ["1", "2", "3"]
   end
-
   factory :question_option_hash do
     value { {
       # key => value
@@ -69,6 +68,11 @@ FactoryGirl.define do
       "2" => "two",
       "3" => "three"
     } }
+  end
+
+  factory :question_option_answer do
+    association :question_option, factory: :question_option_related
+    answer "something"
   end
 
 end

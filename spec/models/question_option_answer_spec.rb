@@ -1,5 +1,13 @@
 require 'spec_helper'
 
 describe QuestionOptionAnswer do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  it "can be associated to an user" do
+    answer = create :question_option_answer
+    user = create :user
+    answer.user = user
+    user.save!
+    expect(answer.user).to be_a_kind_of(Spree.user_class)
+  end
+
 end
