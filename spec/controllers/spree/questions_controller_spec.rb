@@ -60,6 +60,24 @@ describe Spree::QuestionsController do
       end
     end
 
+    it "does not override answers" do
+      questionnaire = create :questionnaire_with_question_option
+      question = questionnaire.ordered_questions.first
+      option = question.question_options.first
+      # one user
+      visit spree.questionnaire_question_path question
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => 'input entered'
+      click_button 'Update Question'
+      # other user
+      visit spree.questionnaire_question_path question
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => 'other input entered'
+      click_button 'Update Question'
+      # both were stored
+      expect(option.question_option_answers.count).to be 2
+      expect(option.question_option_answers.select{|qoa| qoa.answer == 'input entered'}.count).to be 1
+      expect(option.question_option_answers.select{|qoa| qoa.answer == 'other input entered'}.count).to be 1
+    end
+
   end
 
 end
