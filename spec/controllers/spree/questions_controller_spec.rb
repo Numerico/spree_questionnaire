@@ -44,6 +44,19 @@ describe Spree::QuestionsController do
       end
     end
 
+    it "can store multiple hash answers" do
+      questionnaire = create :questionnaire_with_multiple_hashs
+      question = questionnaire.ordered_questions.first
+      visit spree.questionnaire_question_path question
+      question.question_options.each_with_index do |option, index|
+        select 'two', :from => 'question[question_options_attributes]['+index.to_s+'][answer]'
+      end
+      click_button 'Update Question'
+      question.question_options.reload.each do |option|
+        expect(option.answer).to eq("2")
+      end
+    end
+
   end
 
 end
