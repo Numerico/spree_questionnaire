@@ -8,7 +8,11 @@ class Spree::QuestionsController < Spree::StoreController
 
   def update
     @question = Question.get_question params[:id]
-    redirect_to spree.questionnaire_question_path @question.next
+    if @question.update_attributes(params[:question])
+      redirect_to spree.questionnaire_question_path @question.next
+    else
+      render :show
+    end
   end
 
 end

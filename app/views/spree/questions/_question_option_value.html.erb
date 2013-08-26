@@ -1,11 +1,9 @@
-<%= simple_fields_for option do |ff| %>
-  <% if option.instance_of? QuestionOptionInteger %>
-    <%= ff.input :value, :as => :integer  %>
-  <% elsif option.instance_of?(QuestionOptionArray) %>
-    <%= ff.input :value, :collection => option.value %>
-  <% elsif option.instance_of?(QuestionOptionHash) %>
-    <%= ff.input :value, :collection => option.value, :label_method => :second, :value_method => :first %>
-  <% else %>
-    <%= ff.input :value %>
-  <% end %>
+<% if ff.object.instance_of? QuestionOptionInteger %>
+  <%= ff.input :answer, :as => :integer  %>
+<% elsif ff.object.instance_of?(QuestionOptionArray) %>
+  <%= ff.input :answer, :collection => ff.object.value %>
+<% elsif ff.object.instance_of?(QuestionOptionHash) %>
+  <%= ff.input :answer, :collection => ff.object.value, :label_method => :second, :value_method => :first %>
+<% else %>
+  <%= ff.input :answer %>
 <% end %>

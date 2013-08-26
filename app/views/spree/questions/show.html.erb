@@ -10,11 +10,9 @@
     <div class="question-text">
       <p><%= @question.text %></p>
     </div>
-    
-      <% @question.question_options.each do |question_option| %>
-        <%= render :partial => 'question_option_value', :locals => { :option => question_option } %>
-      <% end %>
-    
+    <%= f.simple_fields_for :question_options do |ff| %>
+      <%= render :partial => 'question_option_value', :locals => { :ff => ff } %>
+    <% end %>
   </div>
   <div class="question-form-after">
     <%= f.button :submit %>
