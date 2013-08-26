@@ -31,6 +31,19 @@ describe Spree::QuestionsController do
       expect(option.reload.answer).to eq('input entered')
     end
 
+    it "can store multiple answers" do
+      questionnaire = create :questionnaire_with_multiple_options
+      question = questionnaire.ordered_questions.first
+      visit spree.questionnaire_question_path question
+      question.question_options.each_with_index do |option, index|
+        fill_in 'question[question_options_attributes]['+index.to_s+'][answer]', :with => 'input entered'
+      end
+      click_button 'Update Question'
+      question.question_options.reload.each do |option|
+        expect(option.answer).to eq('input entered')
+      end
+    end
+
   end
 
 end

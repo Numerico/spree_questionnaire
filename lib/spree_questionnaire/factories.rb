@@ -20,6 +20,9 @@ FactoryGirl.define do
     factory :questionnaire_with_question_option do
       questions { create_list :question_with_option, 2 }
     end
+    factory :questionnaire_with_multiple_options do
+      questions { create_list :questions_with_option, 2 }
+    end
   end
 
   factory :question do
