@@ -10,7 +10,10 @@ module SpreeQuestionnaire
       end
 
       def add_stylesheets
-        inject_into_file 'app/assets/stylesheets/store/all.css', " *= require store/spree_questionnaire\n", :before => /\*\//, :verbose => true
+        store_css_scss = 'app/assets/stylesheets/store/all.css.scss'
+        store_css = 'app/assets/stylesheets/store/all.css'
+        store = File.exist?(store_css_scss) ? store_css_scss : store_css
+        inject_into_file store, " *= require store/spree_questionnaire\n", :before => /\*\//, :verbose => true
         inject_into_file 'app/assets/stylesheets/admin/all.css', " *= require admin/spree_questionnaire\n", :before => /\*\//, :verbose => true
       end
 
