@@ -1,24 +1,26 @@
-<%= simple_form_for [:questionnaire, @question] do |f| %>
-  <div class="question-form-before">
-    <% if !@question.is_first? %>
-      <%= link_to "previous", spree.questionnaire_question_path(@previous) unless @previous.nil? %>
-    <% else %>
-      <%= link_to "previous", spree.questionnaire_path %>
-    <% end %>
-  </div>
-  <div  class="question-form">
-    <div class="question-text">
-      <p><%= @question.text %></p>
-    </div>
-    <%= f.simple_fields_for :question_options do |ff| %>
-      <% new_answer = ff.object.question_option_answers.build %>
-      <%= ff.simple_fields_for :question_option_answers, new_answer do |fff| %>
-        <%= render :partial => 'question_option_answer', :locals => { :fff => fff } %>
+<div class="question-wrapper">
+  <%= simple_form_for [:questionnaire, @question] do |f| %>
+    <div class="question-form-before">
+      <% if !@question.is_first? %>
+        <%= link_to "previous", spree.questionnaire_question_path(@previous) unless @previous.nil? %>
+      <% else %>
+        <%= link_to "previous", spree.questionnaire_path %>
       <% end %>
-      
-    <% end %>
-  </div>
-  <div class="question-form-after">
-    <%= f.button :submit %>
-  </div>
-<% end %>
+    </div>
+    <div  class="question-form">
+      <div class="question-text">
+        <p><%= @question.text %></p>
+      </div>
+      <%= f.simple_fields_for :question_options do |ff| %>
+        <% new_answer = ff.object.question_option_answers.build %>
+        <%= ff.simple_fields_for :question_option_answers, new_answer do |fff| %>
+          <%= render :partial => 'question_option_answer', :locals => { :fff => fff } %>
+        <% end %>
+        
+      <% end %>
+    </div>
+    <div class="question-form-after">
+      <%= f.button :submit %>
+    </div>
+  <% end %>
+</div>
