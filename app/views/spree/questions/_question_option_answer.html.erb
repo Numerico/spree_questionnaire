@@ -5,6 +5,8 @@
   <%= fff.input :answer, :collection => question_option.value, :label => false %>
 <% elsif question_option.instance_of?(QuestionOptionHash) %>
   <%= fff.input :answer, :collection => question_option.value, :label_method => :second, :value_method => :first, :label => false %>
+<% elsif question_option.instance_of?(QuestionOptionRadioButton) %>
+  <%= fff.input :answer, :collection => question_option.value, :as => :radio_buttons, :label => false %>
 <% else %>
   <%= fff.input :answer, :label => false %>
 <% end %>

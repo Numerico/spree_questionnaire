@@ -49,6 +49,14 @@ describe "questions/show.html.erb" do
       end
     end
 
+    it "can display radio buttons" do
+      question = create :questions_with_radio_button
+      visit spree.questionnaire_question_path question
+      within "#wrapper" do
+        page.should have_selector('form input[type="radio"]', count: 3)
+      end
+    end
+
   end
 
   context "view" do
