@@ -3,6 +3,6 @@
     <p><%= sanitize @questionnaire.introduction %></p>
   </div>
   <div class="question_forward">
-    <%= link_to "Start", spree.questionnaire_question_path(@question_one) if @question_one %>
+    <%= link_to "Start", spree.questionnaire_question_path(@question_one), :class => "forward_link" if @question_one %>
   </div>
 </div>
