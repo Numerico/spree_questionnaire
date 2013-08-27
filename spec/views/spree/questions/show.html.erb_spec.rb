@@ -57,8 +57,8 @@ describe "questions/show.html.erb" do
       question = create :question_with_option
       visit spree.questionnaire_question_path question
       within "#wrapper" do
-        page.should have_selector 'div.question-text p'
-        find('div.question-text p').text.length.should be > 1
+        page.should have_selector '.question-form h1'
+        find('.question-form h1').text.length.should be > 1
       end
     end
 
