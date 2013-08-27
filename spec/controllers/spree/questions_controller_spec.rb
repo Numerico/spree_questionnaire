@@ -12,6 +12,7 @@ describe Spree::QuestionsController do
 
   describe "PUT 'update'" do
     render_views
+    let(:user) { create :user }
 
     it "redirects to next question" do
       questionnaire = create :questionnaire_with_questions
@@ -76,6 +77,20 @@ describe Spree::QuestionsController do
       expect(option.question_option_answers.count).to be 2
       expect(option.question_option_answers.select{|qoa| qoa.answer == 'input entered'}.count).to be 1
       expect(option.question_option_answers.select{|qoa| qoa.answer == 'other input entered'}.count).to be 1
+    end
+
+    context "if logged in" do
+      before { controller.stub :spree_current_user => user }
+      it "associates answers to current user" do
+        questionnaire = create :questionnaire_with_question_option
+        question = questionnaire.ordered_questions.first
+        option = question.question_options.first
+        visit spree.questionnaire_question_path question
+        fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => 'input entered'
+        click_button 'Update Question'
+        answer = option.question_option_answers.first
+        expect(answer.user).to eq(user)
+      end
     end
 
   end
