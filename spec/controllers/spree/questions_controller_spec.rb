@@ -80,7 +80,13 @@ describe Spree::QuestionsController do
     end
 
     context "if logged in" do
-      before { controller.stub :spree_current_user => user }
+      before do
+         visit '/login'
+         fill_in 'Email', :with => user.email
+         fill_in 'Password', :with => 'secret'
+         click_button 'Login'
+         #TODO require AutenticationHelpers from spree_auth_devise
+      end
       it "associates answers to current user" do
         questionnaire = create :questionnaire_with_question_option
         question = questionnaire.ordered_questions.first
