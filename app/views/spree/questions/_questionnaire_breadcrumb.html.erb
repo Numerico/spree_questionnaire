@@ -1,0 +1,5 @@
+<ul class="questionnaire-breadcrumb">
+  <% @question.questionnaire.ordered_questions.each do |question| %>
+    <li class="<%= "current" if question==@question %>">&nbsp;</li>
+  <% end %>
+</ul>
