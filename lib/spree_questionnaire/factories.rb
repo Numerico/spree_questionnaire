@@ -38,6 +38,9 @@ FactoryGirl.define do
       factory :question_with_hash do
         question_options { create_list :question_option_hash, 1 }
       end
+      factory :question_with_hash_prompt do
+        question_options { create_list :question_option_hash_prompt, 1 }
+      end
       factory :questions_with_option do
         question_options { create_list :question_option, 2 }
       end
@@ -71,6 +74,13 @@ FactoryGirl.define do
       "2" => "two",
       "3" => "three"
     } }
+    factory :question_option_hash_prompt do
+      value { { 
+        "prompt" => "hey there",
+        "1" => "one",
+        "2" => "two"
+      } }
+    end
   end
   factory :question_option_radio_button do
     value ["1", "2", "3"]

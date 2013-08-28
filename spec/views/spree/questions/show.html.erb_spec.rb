@@ -32,7 +32,16 @@ describe "questions/show.html.erb" do
         find('option[value="2"]').should have_content("two")
       end
     end
-  
+
+    it "can set prompt for selects" do
+      question = create :question_with_hash_prompt
+      visit spree.questionnaire_question_path question
+      within "#wrapper" do
+        page.should have_selector 'select option[value=""]'
+        find('option[value=""]').should have_content("hey there")
+      end
+    end
+
     it "can display multiple inputs" do
       question = create :questions_with_option
       visit spree.questionnaire_question_path question
