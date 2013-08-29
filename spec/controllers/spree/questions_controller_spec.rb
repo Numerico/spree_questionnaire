@@ -13,8 +13,28 @@ describe Spree::QuestionsController do
   end
 
   describe "PUT 'update'" do
-    render_views
+
+    render_views # TODO rewrite as functional tests
+
     let(:user) { create :user }
+
+    def answer_a_question(which)
+      questionnaire = create :questionnaire_with_question_option
+        question = questionnaire.ordered_questions.send(which)
+        option = question.question_options.first
+        put :update, "id" => question.id,
+        "question"=>{
+          "question_options_attributes" => {
+            "0" => {
+              "id" => option.id,
+              "question_option_answers_attributes" => {
+                "0" => {"answer"=>"input entered"}
+              }
+            }
+          }
+        }
+        {:question => question, :option => option}
+    end
 
     it "redirects to next question" do
       questionnaire = create :questionnaire_with_questions
@@ -82,21 +102,7 @@ describe Spree::QuestionsController do
     end
 
     it "redirects when finished" do
-        questionnaire = create :questionnaire_with_question_option
-        question = questionnaire.ordered_questions.last
-        option = question.question_options.first
-        put :update, "id" => question.id,
-        "question"=>{
-          "question_options_attributes" => {
-            "0" => {
-              "id" => option.id,
-              "question_option_answers_attributes" => {
-                "0" => {"answer"=>"input entered"}
-              }
-            }
-          }
-        }
-        # TODO DRY
+        answer_a_question :last
         response.should redirect_to(spree.finish_questionnaire_path)
       end
 
@@ -105,21 +111,8 @@ describe Spree::QuestionsController do
         sign_in user
       end
       it "associates answers to current user" do
-        questionnaire = create :questionnaire_with_question_option
-        question = questionnaire.ordered_questions.first
-        option = question.question_options.first
-        put :update, "id" => question.id,
-        "question"=>{
-          "question_options_attributes" => {
-            "0" => {
-              "id" => option.id,
-              "question_option_answers_attributes" => {
-                "0" => {"answer"=>"input entered"}
-              }
-            }
-          }
-        }
-        answer = option.question_option_answers.first
+        helper = answer_a_question :first
+        answer = helper[:option].question_option_answers.first
         expect(answer.user).to eq(user)
       end
     end
@@ -127,44 +120,16 @@ describe Spree::QuestionsController do
     context "not logged in" do
 
       it "stores the answers in session" do
-        questionnaire = create :questionnaire_with_question_option
-        question = questionnaire.ordered_questions.first
-        option = question.question_options.first
-        put :update, "id" => question.id,
-        "question"=>{
-          "question_options_attributes" => {
-            "0" => {
-              "id" => option.id,
-              "question_option_answers_attributes" => {
-                "0" => {"answer"=>"input entered"}
-              }
-            }
-          }
-        }
-        # TODO DRY
+        helper = answer_a_question :first
         expect(session[:questionnaire_answers]).to_not be_nil
         expect(session[:questionnaire_answers]).to_not be_empty
-        answer = option.question_option_answers.first
+        answer = helper[:option].question_option_answers.first
         expect(session[:questionnaire_answers]).to have_key(answer.id.to_s)
       end
 
       it "asks for login at the end" do
-        # questionnaire = create :questionnaire_with_question_option
-        # question = questionnaire.ordered_questions.last
-        # option = question.question_options.first
-        # put :update, "id" => question.id,
-        # "question"=>{
-          # "question_options_attributes" => {
-            # "0" => {
-              # "id" => option.id,
-              # "question_option_answers_attributes" => {
-                # "0" => {"answer"=>"input entered"}
-              # }
-            # }
-          # }
-        # }
-        # # TODO DRY
-        # response.should redirect_to(login_path)
+        answer_a_question :last
+        response.should redirect_to(login_path)
       end
 
     end
