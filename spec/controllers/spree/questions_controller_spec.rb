@@ -110,6 +110,7 @@ describe Spree::QuestionsController do
         "question"=>{
           "question_options_attributes" => {
             "0" => {
+              "id" => option.id,
               "question_option_answers_attributes" => {
                 "0" => {"answer"=>"input entered"}
               }
@@ -120,7 +121,7 @@ describe Spree::QuestionsController do
         expect(session[:questionnaire_answers]).to_not be_nil
         expect(session[:questionnaire_answers]).to_not be_empty
         answer = option.question_option_answers.first
-        # expect(session[:questionnaire_answers]).to include(answer.id) TODO
+        expect(session[:questionnaire_answers]).to have_key(answer.id.to_s)
       end
     end
   end
