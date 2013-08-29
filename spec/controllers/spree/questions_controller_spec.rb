@@ -106,6 +106,7 @@ describe Spree::QuestionsController do
     end
 
     context "not logged in" do
+
       it "stores the answers in session" do
         questionnaire = create :questionnaire_with_question_option
         question = questionnaire.ordered_questions.first
@@ -121,12 +122,32 @@ describe Spree::QuestionsController do
             }
           }
         }
-        # ...
+        # TODO DRY
         expect(session[:questionnaire_answers]).to_not be_nil
         expect(session[:questionnaire_answers]).to_not be_empty
         answer = option.question_option_answers.first
         expect(session[:questionnaire_answers]).to have_key(answer.id.to_s)
       end
+
+      it "asks for login at the end" do
+        questionnaire = create :questionnaire_with_question_option
+        question = questionnaire.ordered_questions.last
+        option = question.question_options.first
+        put :update, "id" => question.id,
+        "question"=>{
+          "question_options_attributes" => {
+            "0" => {
+              "id" => option.id,
+              "question_option_answers_attributes" => {
+                "0" => {"answer"=>"input entered"}
+              }
+            }
+          }
+        }
+        # TODO DRY
+        response.should redirect_to(login_path)
+      end
+
     end
   end
 
