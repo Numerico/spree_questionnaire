@@ -83,19 +83,23 @@ describe Spree::QuestionsController do
 
     context "if logged in" do
       before do
-         visit '/login'
-         fill_in 'Email', :with => user.email
-         fill_in 'Password', :with => 'secret'
-         click_button 'Login'
-         #TODO require AutenticationHelpers from spree_auth_devise
+        sign_in user
       end
       it "associates answers to current user" do
         questionnaire = create :questionnaire_with_question_option
         question = questionnaire.ordered_questions.first
         option = question.question_options.first
-        visit spree.questionnaire_question_path question
-        fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => 'input entered'
-        click_button 'Update Question'
+        put :update, "id" => question.id,
+        "question"=>{
+          "question_options_attributes" => {
+            "0" => {
+              "id" => option.id,
+              "question_option_answers_attributes" => {
+                "0" => {"answer"=>"input entered"}
+              }
+            }
+          }
+        }
         answer = option.question_option_answers.first
         expect(answer.user).to eq(user)
       end
