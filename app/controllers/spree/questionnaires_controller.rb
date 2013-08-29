@@ -5,4 +5,8 @@ class Spree::QuestionnairesController < Spree::StoreController
     @question_one = @questionnaire.ordered_questions.first unless @questionnaire.nil?
   end
 
+  def finish
+    
+  end
+
 end
