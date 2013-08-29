@@ -127,11 +127,6 @@ describe Spree::QuestionsController do
         expect(session[:questionnaire_answers]).to have_key(answer.id.to_s)
       end
 
-      it "asks for login at the end" do
-        answer_a_question :last
-        response.should redirect_to(login_path)
-      end
-
     end
   end
 

@@ -13,7 +13,7 @@ class Spree::QuestionsController < Spree::StoreController
       if @question.next
         redirect_to spree.questionnaire_question_path @question.next
       else
-        redirect_to finish_questionnaire_path
+        redirect_to spree.finish_questionnaire_path
       end
     else
       render :show

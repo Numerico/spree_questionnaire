@@ -79,7 +79,7 @@ RSpec.configure do |config|
 
   config.fail_fast = ENV['FAIL_FAST'] || false
 
-  # Capybara
+  # Capybara TODO move to /features and remove this
   config.include Capybara::DSL
 
 end

@@ -12,4 +12,19 @@ describe Spree::QuestionnairesController do
     end
   end
 
+  describe "GET 'finish'" do
+    let(:user) { create :user }
+    context "logged in" do
+      before do
+        sign_in user
+      end
+    end
+    context "not logged in" do
+      it "asks for login" do
+        get :finish
+        response.should redirect_to(login_path)
+      end
+    end
+  end
+
 end
