@@ -2,10 +2,12 @@ require 'spec_helper'
 
 describe Spree::QuestionnairesController do
 
-  describe "GET 'index'" do
+  routes { Spree::Core::Engine.routes }
+
+  describe "GET 'show'" do
     it "returns http success" do
-      #TODO CREATE QUESTIONNAIRE!
-      visit spree.questionnaire_path
+      create :questionnaire
+      get :show
       response.should be_success
     end
   end
