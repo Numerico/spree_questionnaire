@@ -19,10 +19,14 @@ class Spree::QuestionsController < Spree::StoreController
   protected
 
   def massage_params(params)
-    if spree_current_user
-      params[:question][:question_options_attributes].each do |k,question_option|
-        question_option[:question_option_answers_attributes].each do |q, answer|
-           params[:question][:question_options_attributes][k][:question_option_answers_attributes][q] = answer.merge({:user_id => spree_current_user.id})
+    return unless params[:question]
+    params[:question][:question_options_attributes].each do |k,question_option|
+      question_option[:question_option_answers_attributes].each do |q, answer|
+        if spree_current_user
+          params[:question][:question_options_attributes][k][:question_option_answers_attributes][q] = answer.merge({:user_id => spree_current_user.id})
+        else
+          session[:questionnaire_answers] = {} if session[:questionnaire_answers].nil?
+          session[:questionnaire_answers].store question_option[:id], answer[:answer]
         end
       end
     end

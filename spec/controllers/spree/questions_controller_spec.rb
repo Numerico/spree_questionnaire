@@ -99,6 +99,22 @@ describe Spree::QuestionsController do
       end
     end
 
+    context "not logged in" do
+      it "stores the answers in session" do
+        # TODO DRY
+        questionnaire = create :questionnaire_with_question_option
+        question = questionnaire.ordered_questions.first
+        option = question.question_options.first
+        visit spree.questionnaire_question_path question
+        fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => 'input entered'
+        click_button 'Update Question'
+        #
+        expect(session[:questionnaire_answers]).to_not be_nil
+        expect(session[:questionnaire_answers]).to_not be_empty
+        answer = option.question_option_answers.first
+        expect(session[:questionnaire_answers]).to include(answer.id)
+      end
+    end
   end
 
 end
