@@ -41,14 +41,14 @@ FactoryGirl.define do
       factory :question_with_hash_prompt do
         question_options { create_list :question_option_hash_prompt, 1 }
       end
+      factory :question_with_radio_button do
+        question_options { create_list :question_option_radio_button, 1 }
+      end
       factory :questions_with_option do
         question_options { create_list :question_option, 2 }
       end
       factory :questions_with_hash do
         question_options { create_list :question_option_hash, 2 }
-      end
-      factory :questions_with_radio_button do
-        question_options { create_list :question_option_radio_button, 1 }
       end
     end
   end

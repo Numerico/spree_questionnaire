@@ -101,10 +101,19 @@ describe Spree::QuestionsController do
       expect(option.question_option_answers.select{|qoa| qoa.answer == 'other input entered'}.count).to be 1
     end
 
+    ##
+    it "allows not to select radio buttons" do
+      lambda {
+        question = create :question_with_radio_button
+        visit spree.questionnaire_question_path question
+        click_button 'Update Question'
+      }.should_not raise_error
+    end
+
     it "redirects when finished" do
-        answer_a_question :last
-        response.should redirect_to(spree.finish_questionnaire_path)
-      end
+      answer_a_question :last
+      response.should redirect_to(spree.finish_questionnaire_path)
+    end
 
     context "if logged in" do
       before do
