@@ -28,6 +28,10 @@ describe Spree::QuestionnairesController do
         get :finish
         response.should redirect_to(spree.login_path)
       end
+      it "stores path to return after login" do
+        get :finish
+        expect(session["spree_user_return_to"]).to_not be_nil
+      end
     end
   end
 

@@ -13,6 +13,7 @@ class Spree::QuestionnairesController < Spree::StoreController
 
   # override
   def unauthorized
+    session["spree_user_return_to"] = request.fullpath
     redirect_to spree.login_path
   end
 
