@@ -18,11 +18,15 @@ describe Spree::QuestionnairesController do
       before do
         sign_in user
       end
+      it "doesn't ask for login" do
+        get :finish
+        response.should be_success
+      end
     end
     context "not logged in" do
       it "asks for login" do
         get :finish
-        response.should redirect_to(login_path)
+        response.status.should be 401
       end
     end
   end
