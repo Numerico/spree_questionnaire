@@ -30,6 +30,7 @@ describe "questionnaire/finish.html.erb" do
   end
 
   context "logged in" do
+    before { sign_in }
     
   end
 

@@ -8,7 +8,7 @@ class Spree::QuestionnairesController < Spree::StoreController
   end
 
   def finish
-    
+    associate_user_answers if session[:questionnaire_answers]
   end
 
   # override
@@ -21,6 +21,12 @@ class Spree::QuestionnairesController < Spree::StoreController
 
   def check_authorization
     authorize! :finish, Questionnaire
+  end
+
+  def associate_user_answers
+    session[:questionnaire_answers].each do |k, v|
+      QuestionOptionAnswer.find_or_create_by_question_option_id question_option_id: k, answer: v, user_id: spree_current_user.id
+    end
   end
 
 end

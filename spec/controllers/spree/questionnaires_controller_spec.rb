@@ -15,12 +15,26 @@ describe Spree::QuestionnairesController do
   describe "GET 'finish'" do
     let(:user) { create :user }
     context "logged in" do
-      before do
+      before :each do
         sign_in user
       end
       it "doesn't ask for login" do
         get :finish
         response.should be_success
+      end
+      it "associates answers in session" do
+        questionnaire = create :questionnaire_with_question_option
+        answers = {}
+        questionnaire.questions.each do |question|
+           question.question_options.each do  |option|
+             answers.store option.id, 'some input'
+           end
+        end
+        get :finish, nil, session.to_hash.merge!({ :questionnaire_answers => answers })
+        expect(user.question_option_answers).to_not be_empty
+        user.question_option_answers.each do |user_answer|
+          expect(user_answer.answer).to eq 'some input'
+        end
       end
     end
     context "not logged in" do
