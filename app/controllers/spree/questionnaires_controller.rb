@@ -11,6 +11,11 @@ class Spree::QuestionnairesController < Spree::StoreController
     
   end
 
+  # override
+  def unauthorized
+    redirect_to spree.login_path
+  end
+
   protected
 
   def check_authorization

@@ -26,7 +26,7 @@ describe Spree::QuestionnairesController do
     context "not logged in" do
       it "asks for login" do
         get :finish
-        response.status.should be 401
+        response.should redirect_to(spree.login_path)
       end
     end
   end
