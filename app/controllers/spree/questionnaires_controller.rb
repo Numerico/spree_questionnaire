@@ -9,6 +9,10 @@ class Spree::QuestionnairesController < Spree::StoreController
 
   def finish
     associate_user_answers if session[:questionnaire_answers]
+    parsed = parse_answers(spree_current_user.question_option_answers)
+    result = QuestionnaireResult.instance.resolve parsed
+    spree_current_user.questionnaire_result = result.to_s
+    spree_current_user.save!
   end
 
   # override
@@ -27,6 +31,12 @@ class Spree::QuestionnairesController < Spree::StoreController
     session[:questionnaire_answers].each do |k, v|
       QuestionOptionAnswer.find_or_create_by_question_option_id question_option_id: k, answer: v, user_id: spree_current_user.id
     end
+  end
+
+  def parse_answers(answers)
+    parsed = []
+    answers.each { |answer| parsed << answer.answer } # TODO PLACE IN ORDER
+    parsed
   end
 
 end

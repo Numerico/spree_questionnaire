@@ -14,6 +14,9 @@ describe Spree::QuestionnairesController do
 
   describe "GET 'finish'" do
     let(:user) { create :user }
+    before :all do
+      QuestionnaireResult.load_data ['one', 'two'], [["1", "1", true], ["1", "2", false], ["2", "1", false], ["2", "2", true]]
+    end
     context "logged in" do
       before :each do
         sign_in user
@@ -22,18 +25,26 @@ describe Spree::QuestionnairesController do
         get :finish
         response.should be_success
       end
-      it "associates answers in session" do
-        questionnaire = create :questionnaire_with_question_option
-        answers = {}
-        questionnaire.questions.each do |question|
-           question.question_options.each do  |option|
-             answers.store option.id, 'some input'
-           end
+      context "with answers" do
+        before :each do
+          questionnaire = create :questionnaire_with_question_option
+          @answers = {}
+          questionnaire.questions.each do |question|
+             question.question_options.each do  |option|
+               @answers.store option.id, 1
+             end
+          end
         end
-        get :finish, nil, session.to_hash.merge!({ :questionnaire_answers => answers })
-        expect(user.question_option_answers).to_not be_empty
-        user.question_option_answers.each do |user_answer|
-          expect(user_answer.answer).to eq 'some input'
+        it "associates answers in session" do
+          get :finish, nil, session.to_hash.merge!({ :questionnaire_answers => @answers })
+          expect(user.question_option_answers).to_not be_empty
+          user.question_option_answers.each do |user_answer|
+            expect(user_answer.answer).to eq "1"
+          end
+        end
+        it "generates the result" do
+          get :finish, nil, session.to_hash.merge!({ :questionnaire_answers => @answers })
+          expect(user.reload.questionnaire_result).to eq "true"
         end
       end
     end
