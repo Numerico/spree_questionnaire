@@ -7,6 +7,12 @@ gemspec
 
 gem 'simple_form'
 
+gem "decisiontree"
+
+group :development do
+  gem "graphr" # decisiontree dependency
+end
+
 group :test do
   # Specifying JavaScript Runtime for the test application
   # TODO shouldn't Rails use convention by default for this?
