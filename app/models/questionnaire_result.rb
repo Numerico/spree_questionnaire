@@ -1,3 +1,5 @@
+require 'decisiontree'
+
 class QuestionnaireResult
   include Singleton
 

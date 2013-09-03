@@ -5,14 +5,6 @@ gem 'spree_auth_devise', github: 'spree/spree_auth_devise', branch: '2-0-stable'
 
 gemspec
 
-gem 'simple_form'
-
-gem "decisiontree"
-
-group :development do
-  gem "graphr" # decisiontree dependency
-end
-
 group :test do
   # Specifying JavaScript Runtime for the test application
   # TODO shouldn't Rails use convention by default for this?
