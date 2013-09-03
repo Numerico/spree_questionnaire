@@ -54,6 +54,7 @@ FactoryGirl.define do
   end
 
   factory :question_option do
+    sequence :code
     factory :question_option_related do
       question
     end

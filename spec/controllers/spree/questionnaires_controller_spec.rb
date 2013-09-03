@@ -17,7 +17,7 @@ describe Spree::QuestionnairesController do
     let(:user) { create :user }
     
     before :all do# TODO NOT ALL..
-      QuestionnaireResult.load_data ['one', 'two'], [["1", "1", true], ["1", "2", false], ["2", "1", false], ["2", "2", true]]
+      QuestionnaireResult.load_data ['1', '2'], [["1", "1", true], ["1", "2", false], ["2", "1", false], ["2", "2", true]]
     end
 
     context "logged in" do
@@ -38,17 +38,20 @@ describe Spree::QuestionnairesController do
                @answers.store option.id, 1
              end
           end
+          get :finish, nil, session.to_hash.merge!({ :questionnaire_answers => @answers })
         end
         it "associates answers in session" do
-          get :finish, nil, session.to_hash.merge!({ :questionnaire_answers => @answers })
           expect(user.question_option_answers).to_not be_empty
           user.question_option_answers.each do |user_answer|
             expect(user_answer.answer).to eq "1"
           end
         end
+        # TODO TEST ORDER
+        # it "orders the result data from answers" do
+          # expect(assigns[:parsed]).to be_nil
+        # end
         it "generates the result" do
-          get :finish, nil, session.to_hash.merge!({ :questionnaire_answers => @answers })
-          expect(user.reload.questionnaire_result).to eq "true"
+          expect(user.reload.questionnaire_result).to eq "true" # TODO FIX
         end
       end
     end
