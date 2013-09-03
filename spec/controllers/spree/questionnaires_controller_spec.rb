@@ -13,10 +13,13 @@ describe Spree::QuestionnairesController do
   end
 
   describe "GET 'finish'" do
+
     let(:user) { create :user }
-    before :all do
+    
+    before :all do# TODO NOT ALL..
       QuestionnaireResult.load_data ['one', 'two'], [["1", "1", true], ["1", "2", false], ["2", "1", false], ["2", "2", true]]
     end
+
     context "logged in" do
       before :each do
         sign_in user
@@ -26,6 +29,7 @@ describe Spree::QuestionnairesController do
         response.should be_success
       end
       context "with answers" do
+        # is logged in with session values because he's comming back from login/redirect
         before :each do
           questionnaire = create :questionnaire_with_question_option
           @answers = {}
