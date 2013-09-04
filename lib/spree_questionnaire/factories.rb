@@ -53,25 +53,33 @@ FactoryGirl.define do
     end
   end
 
-  factory :question_option do
+  trait :code_alt do
     ignore do
       sequence :pre_code
     end
     code { pre_code % 2 != 0 ? 'one' : 'two' }
+  end
+
+  factory :question_option do
+    code_alt
     factory :question_option_related do
       question
     end
   end
   factory :question_option_integer do
+    code_alt
     value "1"
   end
   factory :question_option_string do
+    code_alt
     value "A"
   end
   factory :question_option_array do
+    code_alt
     value ["1", "2", "3"]
   end
   factory :question_option_hash do
+    code_alt
     value { {
       # key => value
       "1" => "one",
@@ -87,6 +95,7 @@ FactoryGirl.define do
     end
   end
   factory :question_option_radio_button do
+    code_alt
     value ["1", "2", "3"]
   end
 

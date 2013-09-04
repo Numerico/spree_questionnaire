@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "integration tests" do
+describe "::integration tests::" do
 
   let(:user){ create :user }
 
@@ -32,7 +32,7 @@ describe "integration tests" do
     current_path.should eq spree.finish_questionnaire_path
   end
 
-  context "encapsulated data" do
+  context "(encapsulated data)" do
 
     before :each do
       questionnaire = create :questionnaire
@@ -56,7 +56,7 @@ describe "integration tests" do
       log_in
       current_path.should eq spree.finish_questionnaire_path
       expect(user.reload.question_option_answers).to_not be_empty
-      # expect(user.questionnaire_result).to_not be_nil
+      expect(user.questionnaire_result).to_not be_nil
     end
   
     it "associates user at each question when logged in" do
@@ -79,11 +79,34 @@ describe "integration tests" do
       current_path.should eq spree.finish_questionnaire_path
       expect(QuestionOptionAnswer.where(user_id: user.id).count).to eq 4 
     end
-  
-    it "updates answers for user when he repeats them" do
-      
-    end
 
   end
+
+    it "updates answers for user when he repeats them" do
+      questionnaire = create :questionnaire
+      create :question_with_int, questionnaire_id: questionnaire.id, position: 1
+      create :question_with_int, questionnaire_id: questionnaire.id, position: 2
+      visit spree.login_path
+      log_in
+      # first time
+      visit spree.questionnaire_path
+      click_link 'Start'
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '1'
+      click_button 'Update Question'#1
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '1'
+      click_button 'Update Question'#2
+      expect(user.reload.questionnaire_result).to eq "true"
+      # second time
+      visit spree.questionnaire_path
+      click_link 'Start'
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '2'
+      click_button 'Update Question'#1
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '1'
+      click_button 'Update Question'#2
+      # saved without replacing
+      expect(QuestionOptionAnswer.where(user_id: user.id).count).to eq 4
+      # using latest
+      expect(user.reload.questionnaire_result).to eq "false"
+    end
 
 end

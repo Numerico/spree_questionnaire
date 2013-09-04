@@ -39,7 +39,11 @@ class Spree::QuestionnairesController < Spree::StoreController
   end
 
   def parse_answers answers, result
-    result.tree_attributes.collect{|attr| answers.includes(:question_option).where("question_options.code = '#{attr}'").collect{|x| x.answer} }.flatten
+    result.tree_attributes.collect do |attr| 
+      answer = answers.includes(:question_option).where("question_options.code = '#{attr}'").order("question_option_answers.id DESC").first
+      next unless answer
+      answer.answer
+    end
   end
 
 end
