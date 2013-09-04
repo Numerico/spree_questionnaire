@@ -38,7 +38,7 @@ class Spree::QuestionnairesController < Spree::StoreController
 
   def parse_answers(answers)
     parsed = []
-    QuestionnaireResult.instance.tree_attributes do |attr|
+    QuestionnaireResult.instance.tree_attributes.each do |attr|
       answer = answers.includes(:question_option).where("question_options.code = '#{attr}'").first
       parsed << answer.answer if answer
     end
