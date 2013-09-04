@@ -1,0 +1,25 @@
+# example training configuration file
+# to override in config/spree_questionnaire_result.yml in your app
+
+#this is the decision tree column names
+attributes:
+  - 'one'
+  - 'two'
+
+# this is the data
+# each list mus have as many items as there are columns
+# more the combination result
+training:
+  - - '1'# attributes 1
+    - '1'# attributes 2
+    - true # result
+    # idem..
+  - - '1'
+    - '2'
+    - false
+  - - '2'
+    - '1'
+    - false
+  - - '2'
+    - '2'
+    - true

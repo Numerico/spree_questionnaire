@@ -15,10 +15,6 @@ describe Spree::QuestionnairesController do
   describe "GET 'finish'" do
 
     let(:user) { create :user }
-    
-    before :all do# TODO NOT ALL..
-      QuestionnaireResult.load_data ['1', '2'], [["1", "1", true], ["1", "2", false], ["2", "1", false], ["2", "2", true]]
-    end
 
     context "logged in" do
       before :each do
@@ -51,7 +47,7 @@ describe Spree::QuestionnairesController do
           # expect(assigns[:parsed]).to be_nil
         # end
         it "generates the result" do
-          expect(user.reload.questionnaire_result).to eq "true" # TODO FIX
+          expect(user.reload.questionnaire_result).to eq "true"
         end
       end
     end

@@ -10,10 +10,11 @@ class Spree::QuestionnairesController < Spree::StoreController
   def finish
     associate_user_answers if session[:questionnaire_answers]
     # generat result
-    @parsed = parse_answers(spree_current_user.question_option_answers)
+    result = QuestionnaireResult.new
+    @parsed = parse_answers spree_current_user.question_option_answers, result
     unless @parsed.empty?
-      result = QuestionnaireResult.instance.resolve @parsed
-      spree_current_user.questionnaire_result = result.to_s
+      size = result.resolve @parsed
+      spree_current_user.questionnaire_result = size.to_s
       spree_current_user.save!
     end
   end
@@ -36,9 +37,9 @@ class Spree::QuestionnairesController < Spree::StoreController
     end
   end
 
-  def parse_answers(answers)
+  def parse_answers answers, result
     parsed = []
-    QuestionnaireResult.instance.tree_attributes.each do |attr|
+    result.tree_attributes.each do |attr|
       answer = answers.includes(:question_option).where("question_options.code = '#{attr}'").first
       parsed << answer.answer if answer
     end

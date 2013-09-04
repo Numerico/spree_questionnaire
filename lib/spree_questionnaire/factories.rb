@@ -54,7 +54,10 @@ FactoryGirl.define do
   end
 
   factory :question_option do
-    sequence :code
+    ignore do
+      sequence :pre_code
+    end
+    code { pre_code % 2 != 0 ? 'one' : 'two' }
     factory :question_option_related do
       question
     end
