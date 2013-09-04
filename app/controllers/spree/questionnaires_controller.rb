@@ -33,7 +33,8 @@ class Spree::QuestionnairesController < Spree::StoreController
 
   def associate_user_answers
     session[:questionnaire_answers].each do |k, v|
-      QuestionOptionAnswer.find_or_create_by_question_option_id question_option_id: k, answer: v, user_id: spree_current_user.id
+      answer = QuestionOptionAnswer.find_or_create_by_question_option_id question_option_id: k, answer: v, user_id: spree_current_user.id
+      answer.update_attributes(:user_id => spree_current_user.id) if answer.user_id.nil?
     end
   end
 
