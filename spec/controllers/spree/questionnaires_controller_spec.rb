@@ -42,13 +42,24 @@ describe Spree::QuestionnairesController do
             expect(user_answer.answer).to eq "1"
           end
         end
-        # TODO TEST ORDER
-        # it "orders the result data from answers" do
-          # expect(assigns[:parsed]).to be_nil
-        # end
+        it "parsed data for test" do
+          expect(assigns[:parsed]).to_not be_empty
+        end
         it "generates the result" do
           expect(user.reload.questionnaire_result).to eq "true"
         end
+      end
+      it "result data follows answers order" do
+        questionnaire = create :questionnaire_with_question_option
+        @answers = {}
+        qo2 = questionnaire.question_options.where(code: 'two').first
+        qo1 = questionnaire.question_options.where(code: 'one').first
+        #stored second first so order will have to be switched
+        @answers.store qo2.id, 2
+        @answers.store qo1.id, 1
+        get :finish, nil, session.to_hash.merge!({ :questionnaire_answers => @answers })
+        expect(assigns[:parsed]).to eq ["1", "2"]
+        expect(user.reload.questionnaire_result).to eq "true"
       end
     end
     context "not logged in" do

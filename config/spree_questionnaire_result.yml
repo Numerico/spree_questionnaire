@@ -16,7 +16,7 @@ training:
     # idem..
   - - '1'
     - '2'
-    - false
+    - true
   - - '2'
     - '1'
     - false

@@ -38,12 +38,14 @@ class Spree::QuestionnairesController < Spree::StoreController
   end
 
   def parse_answers answers, result
-    parsed = []
-    result.tree_attributes.each do |attr|
-      answer = answers.includes(:question_option).where("question_options.code = '#{attr}'").first
-      parsed << answer.answer if answer
-    end
-    parsed
+    #parsed = []
+    # result.tree_attributes.each do |attr|
+      # answer = answers.includes(:question_option).where("question_options.code = '#{attr}'").first# TODO ORDER BY
+      # parsed << answer.answer if answer
+    # end
+    #
+    #parsed
+    answers.collect{|answer| answer.answer}
   end
 
 end
