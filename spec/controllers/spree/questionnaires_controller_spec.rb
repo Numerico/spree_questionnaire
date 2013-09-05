@@ -10,6 +10,11 @@ describe Spree::QuestionnairesController do
       get :show
       response.should be_success
     end
+    it "redirects to first question if no introduction" do
+      create :questionnaire_no_intro
+      get :show
+      response.should be_redirect
+    end
   end
 
   describe "GET 'finish'" do
