@@ -8,7 +8,7 @@ class Questionnaire < ActiveRecord::Base
   end
 
   def self.get_questionnaire
-    self.first
+    self.last
   end
 
 end

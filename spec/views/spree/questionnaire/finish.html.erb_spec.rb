@@ -31,7 +31,20 @@ describe "questionnaire/finish.html.erb" do
 
   context "logged in" do
     before { sign_in }
-    # TODO SHOWS RESULT
+    it "shows result" do
+      questionnaire = create :questionnaire_with_question_option
+      #populate answers
+      visit spree.questionnaire_path
+      click_link 'Start'
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '1'
+      click_button 'Update Question'#1
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '1'
+      click_button 'Update Question'#1
+      #
+      expect(user.reload.questionnaire_result).to eq "true"
+      page.should have_selector '#questionnaire-result-wrapper'
+      find('#questionnaire-result-wrapper #questionnaire-result').should have_content user.questionnaire_result
+    end
   end
 
 end
