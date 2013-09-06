@@ -1,21 +1,21 @@
 <% question_option = fff.object.question_option %>
 <% if question_option.instance_of? QuestionOptionInteger %>
-  <%= fff.input :answer, :as => :integer, :label => false  %>
+  <%= fff.input :answer, :as => :integer  %>
 <% elsif question_option.instance_of?(QuestionOptionArray) %>
-  <%= fff.input :answer, :collection => question_option.value, :label => false %>
+  <%= fff.input :answer, :collection => question_option.value %>
 <% elsif question_option.instance_of?(QuestionOptionHash) %>
   <% if question_option.value.has_key?("prompt") %>
     <% values = question_option.value  %>
     <% prompt = values.delete "prompt" %>
-    <%= fff.input :answer, :collection => values, :label_method => :second, :value_method => :first, :label => false, :prompt => prompt %>
+    <%= fff.input :answer, :collection => values, :label_method => :second, :value_method => :first, :prompt => prompt %>
   <% else %>
-    <%= fff.input :answer, :collection => question_option.value, :label_method => :second, :value_method => :first, :label => false %>
+    <%= fff.input :answer, :collection => question_option.value, :label_method => :second, :value_method => :first %>
   <% end %>
 <% elsif question_option.instance_of?(QuestionOptionRadioButton) %>
-  <%= fff.input :answer, :collection => question_option.value, :as => :radio_buttons, :label => false %>
+  <%= fff.input :answer, :collection => question_option.value, :as => :radio_buttons %>
 <% elsif question_option.instance_of?(QuestionOptionRange) %>
   <% val = question_option.value %>
-  <%= fff.input :answer, :as => :range, :label => false, :input_html => { :step => val[0], :min => val[1], :max => val[2] } %>
+  <%= fff.input :answer, :as => :range, :input_html => { :step => val[0], :min => val[1], :max => val[2] } %>
 <% else %>
-  <%= fff.input :answer, :label => false %>
+  <%= fff.input :answer %>
 <% end %>

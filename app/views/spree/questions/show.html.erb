@@ -1,7 +1,7 @@
 <%= render :partial => 'questionnaire_breadcrumb' %>
 <% back_txt = "previous" %>
 <div class="question-wrapper">
-  <%= simple_form_for [:questionnaire, @question] do |f| %>
+  <%= simple_form_for([:questionnaire, @question], defaults: { label: false }) do |f| %>
     <div class="question-form-before">
       <% if !@question.is_first? %>
         <%= link_to back_txt, spree.questionnaire_question_path(@previous) unless @previous.nil? %>
