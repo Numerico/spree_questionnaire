@@ -66,6 +66,19 @@ describe "questions/show.html.erb" do
       end
     end
 
+    it "can display range selects" do
+      question = create :question_with_range
+      visit spree.questionnaire_question_path question
+      within "#wrapper" do
+        page.should have_selector 'form input[type="range"]'
+        # array's three values are step, min and max 
+        question_option = question.question_options.first
+        find('input[type="range"]')['step'].should eq question_option.value[0]
+        find('input[type="range"]')['min'].should eq question_option.value[1]
+        find('input[type="range"]')['max'].should eq question_option.value[2]
+      end
+    end
+
   end
 
   context "view" do

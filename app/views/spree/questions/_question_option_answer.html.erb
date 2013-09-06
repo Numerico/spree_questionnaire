@@ -13,6 +13,9 @@
   <% end %>
 <% elsif question_option.instance_of?(QuestionOptionRadioButton) %>
   <%= fff.input :answer, :collection => question_option.value, :as => :radio_buttons, :label => false %>
+<% elsif question_option.instance_of?(QuestionOptionRange) %>
+  <% val = question_option.value %>
+  <%= fff.input :answer, :as => :range, :label => false, :input_html => { :step => val[0], :min => val[1], :max => val[2] } %>
 <% else %>
   <%= fff.input :answer, :label => false %>
 <% end %>

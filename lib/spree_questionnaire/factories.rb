@@ -48,6 +48,9 @@ FactoryGirl.define do
       factory :question_with_radio_button do
         question_options { create_list :question_option_radio_button, 1 }
       end
+      factory :question_with_range do
+        question_options { create_list :question_option_range, 1 }
+      end
       factory :questions_with_option do
         question_options { create_list :question_option, 2 }
       end
@@ -101,6 +104,10 @@ FactoryGirl.define do
   factory :question_option_radio_button do
     code_alt
     value ["1", "2", "3"]
+  end
+  factory :question_option_range do
+    code_alt
+    value ["1", "1", "5"]
   end
 
   factory :question_option_answer do
