@@ -14,7 +14,8 @@ describe QuestionOption do
 
   it "has an integer type" do
     int = create :question_option_integer
-    expect(int.value).to be_a_kind_of(Integer)
+    expect(int.value).to be_a_kind_of(String)
+    expect { Integer(int.value) }.to_not raise_error # TODO some validation
   end
   it "has a string type" do
     str = create :question_option_string
