@@ -15,3 +15,5 @@ end
 group :test, :development do
   gem "debugger"
 end
+
+gem "decisiontree", github: 'igrigorik/decisiontree'
