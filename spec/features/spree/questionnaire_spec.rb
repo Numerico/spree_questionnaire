@@ -20,12 +20,16 @@ describe "::integration tests::" do
     current_path.should eq spree.questionnaire_path
     click_link 'Start'
     current_path.should eq spree.questionnaire_question_path q1
+    fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => 'input entered'
     click_button 'Update Question'
     current_path.should eq spree.questionnaire_question_path q2
+    select '2', :from => 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]'
     click_button 'Update Question'
     current_path.should eq spree.questionnaire_question_path q3
+    select 'two', :from => 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]'
     click_button 'Update Question'
     current_path.should eq spree.questionnaire_question_path q4
+    choose 2
     click_button 'Update Question'
     current_path.should eq spree.login_path
     log_in

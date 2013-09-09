@@ -19,6 +19,9 @@ FactoryGirl.define do
     factory :questionnaire_with_question_option do
       questions { create_list :question_with_option, 2 }
     end
+    factory :questionnaire_with_question_option_required do
+      questions { create_list :question_required, 2 }
+    end
     factory :questionnaire_with_multiple_options do
       questions { create_list :questions_with_option, 2 }
     end
@@ -51,6 +54,9 @@ FactoryGirl.define do
       factory :question_with_range do
         question_options { create_list :question_option_range, 1 }
       end
+      factory :question_required do
+        question_options { create_list :question_option_required, 1 }
+      end
       factory :questions_with_option do
         question_options { create_list :question_option, 2 }
       end
@@ -71,6 +77,9 @@ FactoryGirl.define do
     code_alt
     factory :question_option_related do
       question
+    end
+    factory :question_option_required do
+      required true
     end
   end
   factory :question_option_integer do

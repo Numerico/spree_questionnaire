@@ -20,20 +20,24 @@ describe Spree::QuestionsController do
 
     def answer_a_question(which)
       questionnaire = create :questionnaire_with_question_option
-        question = questionnaire.ordered_questions.send(which)
-        option = question.question_options.first
-        put :update, "id" => question.id,
+      question = questionnaire.ordered_questions.send(which)
+      option = question.question_options.first
+      put_answer question, option, "input entered"
+      {:question => question, :option => option}
+    end
+
+    def put_answer(question, option, answer)
+      put :update, "id" => question.id,
         "question"=>{
           "question_options_attributes" => {
             "0" => {
               "id" => option.id,
               "question_option_answers_attributes" => {
-                "0" => {"answer"=>"input entered"}
+                "0" => { "answer" => answer }
               }
             }
           }
         }
-        {:question => question, :option => option}
     end
 
     it "redirects to next question" do
@@ -101,7 +105,7 @@ describe Spree::QuestionsController do
       expect(option.question_option_answers.select{|qoa| qoa.answer == 'other input entered'}.count).to be 1
     end
 
-    ##
+    # because of some bug
     it "allows not to select radio buttons" do
       lambda {
         question = create :question_with_radio_button
@@ -113,6 +117,22 @@ describe Spree::QuestionsController do
     it "redirects when finished" do
       answer_a_question :last
       response.should redirect_to(spree.finish_questionnaire_path)
+    end
+
+    it "validates" do
+      questionnaire = create :questionnaire_with_question_option_required
+      question = questionnaire.ordered_questions.first
+      option = question.question_options.first
+      put_answer question, option, "" # empty
+      response.should be_success
+    end
+
+    it "doesn't validate if not required" do
+      questionnaire = create :questionnaire_with_question_option
+      question = questionnaire.ordered_questions.first
+      option = question.question_options.first
+      put_answer question, option, "" # empty
+      response.should be_redirect
     end
 
     context "if logged in" do

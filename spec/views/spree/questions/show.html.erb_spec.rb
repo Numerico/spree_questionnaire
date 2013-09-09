@@ -139,6 +139,16 @@ describe "questions/show.html.erb" do
       end
     end
 
+    it "shows validation errors" do
+      questionnaire = create :questionnaire_with_question_option_required
+      question = questionnaire.questions.first
+      visit spree.questionnaire_question_path question
+      click_button 'Update Question'
+      within "#wrapper" do
+        page.should have_selector 'div.question-errors'
+      end
+    end
+
   end
 
 end

@@ -16,11 +16,13 @@
         <%= ff.simple_fields_for :question_option_answers, new_answer do |fff| %>
           <%= render :partial => 'question_option_answer', :locals => { :fff => fff } %>
         <% end %>
-        
       <% end %>
     </div>
     <div class="question-form-after">
       <%= f.button :submit %>
     </div>
+    <% if @question.errors.any? %>
+      <div class="question-errors"><%= @question.errors.full_messages %></div>
+    <% end %>
   <% end %>
 </div>
