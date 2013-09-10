@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'spree_core', '~> 2.0.4'
   s.add_dependency 'simple_form'
-  # s.add_dependency 'decisiontree'
+  s.add_dependency 'decisiontree_n'
 
   s.add_development_dependency 'capybara', '~> 2.1'
   s.add_development_dependency 'coffee-rails'
