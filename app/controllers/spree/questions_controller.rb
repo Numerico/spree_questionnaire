@@ -1,17 +1,15 @@
 class Spree::QuestionsController < Spree::StoreController
 
+  before_filter :question_and_siblings
+
   def show
-    @question = Question.get_question params[:id]
-    @next = @question.next
-    @previous = @question.previous
     @question.question_options.each {|option| option.question_option_answers.build }
   end
 
   def update
-    @question = Question.get_question params[:id]
     if @question.update_attributes massage_params(params)
-      if @question.next
-        redirect_to spree.questionnaire_question_path @question.next
+      if @next
+        redirect_to spree.questionnaire_question_path @next
       else
         redirect_to spree.finish_questionnaire_path
       end
@@ -37,6 +35,12 @@ class Spree::QuestionsController < Spree::StoreController
       end
     end
     params[:question]
+  end
+
+  def question_and_siblings
+    @question = Question.get_question params[:id]
+    @next = @question.next
+    @previous = @question.previous
   end
 
 end

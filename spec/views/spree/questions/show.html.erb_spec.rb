@@ -145,7 +145,18 @@ describe "questions/show.html.erb" do
       visit spree.questionnaire_question_path question
       click_button 'Update Question'
       within "#wrapper" do
-        page.should have_selector 'div.question-errors'
+        page.should have_selector '.flash.error'
+      end
+    end
+
+    it "has back link when validated" do
+      questionnaire = create :questionnaire_with_question_option_required
+      question = questionnaire.questions[1]
+      visit spree.questionnaire_question_path question
+      click_button 'Update Question'
+      within "#wrapper" do
+        page.should have_selector '.flash.error'
+        page.should have_selector 'div.question-form-before a[href="'+spree.questionnaire_question_path(question.previous)+'"]'
       end
     end
 
