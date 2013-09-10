@@ -16,6 +16,7 @@ class Spree::QuestionsController < Spree::StoreController
         redirect_to spree.finish_questionnaire_path
       end
     else
+      flash[:error] = Spree.t('questionnaire.required_msg')
       render :show
     end
   end
