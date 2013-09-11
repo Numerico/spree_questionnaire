@@ -160,6 +160,14 @@ describe "questions/show.html.erb" do
       end
     end
 
+    it "uses default value for radio buttons" do
+      question = create :question_with_radio_button_required
+      visit spree.questionnaire_question_path question
+      within "#wrapper" do
+        page.should have_selector 'input[type="radio"][checked="checked"]'
+      end
+    end
+
   end
 
 end

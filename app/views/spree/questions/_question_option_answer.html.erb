@@ -12,7 +12,7 @@
     <%= fff.input :answer, :collection => question_option.value, :label_method => :second, :value_method => :first %>
   <% end %>
 <% elsif question_option.instance_of?(QuestionOptionRadioButton) %>
-  <%= fff.input :answer, :collection => question_option.value, :as => :radio_buttons %>
+  <%= fff.input :answer, :collection => question_option.value, :as => :radio_buttons, :checked => question_option.value.first %>
 <% elsif question_option.instance_of?(QuestionOptionRange) %>
   <% val = question_option.value %>
   <%= fff.input :answer, :as => :range, :input_html => { :step => val[0], :min => val[1], :max => val[2] } %>
