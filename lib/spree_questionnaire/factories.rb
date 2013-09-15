@@ -122,7 +122,7 @@ FactoryGirl.define do
   end
   factory :question_option_range do
     code_alt
-    value ["1", "1", "5"]
+    value { { "1" => "small", "2" => "medium", "3" => "large"} }
   end
 
   factory :question_option_answer do

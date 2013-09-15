@@ -83,13 +83,25 @@ describe "questions/show.html.erb" do
       visit spree.questionnaire_question_path question
       within "#wrapper" do
         page.should have_selector 'form input[type="range"]'
-        # array's three values are step, min and max 
         question_option = question.question_options.first
-        find('input[type="range"]')['step'].should eq question_option.value[0]
-        find('input[type="range"]')['min'].should eq question_option.value[1]
-        find('input[type="range"]')['max'].should eq question_option.value[2]
+        find('input[type="range"]')['step'].should eq "1" # assumes step 1 TODO
+        find('input[type="range"]')['min'].should eq question_option.value.keys.first # min is first key
+        find('input[type="range"]')['max'].should eq question_option.value.keys.last # max is last key
       end
       no_labels
+    end
+
+    it "renders a disabled select with range for unsupporting browsers" do
+      question = create :question_with_range
+      visit spree.questionnaire_question_path question
+      question_option = question.question_options.first
+      within "#wrapper" do
+        page.should have_selector 'select[disabled="disabled"]'
+        question_option.value.each do |k, v|
+          page.should have_selector "select option[value='#{k}']"
+          find("select option[value='#{k}']").should have_content v
+        end
+      end
     end
 
   end
