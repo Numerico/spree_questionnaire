@@ -5,3 +5,4 @@ en:
   spree:
     questionnaire:
       required_msg: "Please mark an answer to continue"
+      notified: Thanks! We will be in touch

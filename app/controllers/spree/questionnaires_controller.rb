@@ -14,6 +14,11 @@ class Spree::QuestionnairesController < Spree::StoreController
     spree_current_user.update_attributes(:questionnaire_result => session[:result]) unless session[:result].nil?
   end
 
+  def notify
+    flash[:notice] = Spree.t 'questionnaire.notified'
+    redirect_to root_path
+  end
+
   # override
   def unauthorized
     session["spree_user_return_to"] = request.fullpath

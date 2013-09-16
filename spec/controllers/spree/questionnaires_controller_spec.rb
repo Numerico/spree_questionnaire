@@ -65,4 +65,11 @@ describe Spree::QuestionnairesController do
     end
   end
 
+  describe "POST 'notify'" do
+    it "redirects with a message" do
+      post :notify
+      response.should redirect_to root_path
+      flash[:notice].should_not be_empty
+    end
+  end
 end
