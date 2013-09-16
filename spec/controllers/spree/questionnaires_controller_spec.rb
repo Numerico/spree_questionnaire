@@ -71,5 +71,20 @@ describe Spree::QuestionnairesController do
       response.should redirect_to root_path
       flash[:notice].should_not be_empty
     end
+    it "stores email with answers" do
+      questionnaire = create :questionnaire_with_question_option
+      @answers = {}
+      questionnaire.questions.each do |question|
+         question.question_options.each do  |option|
+           answer = "1"
+           QuestionOptionAnswer.create question_option_id: option.id, answer: answer # created by questions_controller#update
+           @answers.store option.id.to_s, answer
+         end
+      end
+      post :notify, {email: 'webmaster@numerica.cl'}, {questionnaire_answers: @answers, result: "true" }
+      notify = QuestionnaireNotify.first
+      notify.should_not be_nil
+      notify.question_option_answers.should_not be_empty
+    end
   end
 end

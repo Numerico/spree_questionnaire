@@ -3,10 +3,10 @@
     <span id="questionnaire-result"><%= session[:result] %></span>
   <% else %>
     <div id="questionnaire-form">
-      <%= form_tag notify_questionnaire_path, method: 'post' do |f| %>
-        <%= email_field_tag :email, nil, placeholder: Spree.t(:email) %>
+      <%= form_for @notify, url: notify_questionnaire_path do |f| %>
+        <%= f.email_field :email, placeholder: Spree.t(:email) %>
         <br />
-        <%= submit_tag %>
+        <%= f.submit  %>
       <% end %>
     </div>
   <% end %>

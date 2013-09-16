@@ -9,14 +9,26 @@ class Spree::QuestionnairesController < Spree::StoreController
   end
 
   def finish
-    return if session[:result] == "ERROR"
-    associate_user_answers if session[:questionnaire_answers]
-    spree_current_user.update_attributes(:questionnaire_result => session[:result]) unless session[:result].nil?
+    if session[:result] != "ERROR"
+      associate_user_answers if session[:questionnaire_answers]
+      spree_current_user.update_attributes(:questionnaire_result => session[:result]) unless session[:result].nil?
+    else
+      @notify = QuestionnaireNotify.new
+    end
   end
 
   def notify
-    flash[:notice] = Spree.t 'questionnaire.notified'
-    redirect_to root_path
+    notify = QuestionnaireNotify.create params[:notify]
+    if notify
+      if session[:questionnaire_answers]
+        notify.question_option_answers = get_answers
+        notify.save
+      end
+      flash[:notice] = Spree.t 'questionnaire.notified'
+      redirect_to root_path
+    else
+      render :finish
+    end
   end
 
   # override
@@ -35,6 +47,12 @@ class Spree::QuestionnairesController < Spree::StoreController
     session[:questionnaire_answers].each do |k, v|
       answer = QuestionOptionAnswer.find_or_create_by_question_option_id question_option_id: k, answer: v, user_id: spree_current_user.id
       answer.update_attributes(:user_id => spree_current_user.id) if answer.user_id.nil? # TODO ugly
+    end
+  end
+
+  def get_answers
+    session[:questionnaire_answers].collect do |k, v|
+      QuestionOptionAnswer.where(question_option_id: k, answer: v, user_id: nil).first # TODO what if there are duplicates?
     end
   end
 
