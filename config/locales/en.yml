@@ -6,3 +6,5 @@ en:
     questionnaire:
       required_msg: "Please mark an answer to continue"
       notified: Thanks! We will be in touch
+      notify:
+        mail_validation: Please provide a valid e-mail address

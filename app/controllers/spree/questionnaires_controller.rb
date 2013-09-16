@@ -18,8 +18,8 @@ class Spree::QuestionnairesController < Spree::StoreController
   end
 
   def notify
-    notify = QuestionnaireNotify.create params[:notify]
-    if notify
+    notify = QuestionnaireNotify.new params[:questionnaire_notify]
+    if notify.save
       if session[:questionnaire_answers]
         notify.question_option_answers = get_answers
         notify.save
@@ -27,6 +27,8 @@ class Spree::QuestionnairesController < Spree::StoreController
       flash[:notice] = Spree.t 'questionnaire.notified'
       redirect_to root_path
     else
+      flash[:error] = Spree.t 'questionnaire.notify.mail_validation'
+      @notify = QuestionnaireNotify.new
       render :finish
     end
   end

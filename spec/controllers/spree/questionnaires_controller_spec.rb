@@ -67,7 +67,11 @@ describe Spree::QuestionnairesController do
 
   describe "POST 'notify'" do
     it "redirects with a message" do
-      post :notify
+      post :notify, { # request
+        'questionnaire_notify' => {
+          'email' => 'webmaster@numerica.cl'
+        }
+      }
       response.should redirect_to root_path
       flash[:notice].should_not be_empty
     end
@@ -81,10 +85,39 @@ describe Spree::QuestionnairesController do
            @answers.store option.id.to_s, answer
          end
       end
-      post :notify, {email: 'webmaster@numerica.cl'}, {questionnaire_answers: @answers, result: "true" }
+      post :notify, { # request
+        'questionnaire_notify' => {
+          'email' => 'webmaster@numerica.cl'
+        }
+      } , { # session
+        'questionnaire_answers' => @answers,
+        'result' => "true"
+      }
       notify = QuestionnaireNotify.first
       notify.should_not be_nil
       notify.question_option_answers.should_not be_empty
+    end
+    it "validates email presence" do
+      questionnaire = create :questionnaire_with_question_option
+      @answers = {}
+      post :notify, { # request
+        'questionnaire_notify' => {
+          'email' => ''
+        }
+      }
+      response.should be_success
+      flash[:error].should_not be_nil
+    end
+    it "validates email formar" do
+      questionnaire = create :questionnaire_with_question_option
+      @answers = {}
+      post :notify, { # request
+        'questionnaire_notify' => {
+          'email' => 'notanemail'
+        }
+      }
+      response.should be_success
+      flash[:error].should_not be_nil
     end
   end
 end
