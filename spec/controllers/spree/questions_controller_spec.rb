@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Spree::QuestionsController do
 
-  routes { Spree::Core::Engine.routes }# TODO DRY?
+  routes { Spree::Core::Engine.routes }
 
   describe "GET 'show'" do
     it "returns http success" do
@@ -117,6 +117,37 @@ describe Spree::QuestionsController do
     it "redirects when finished" do
       answer_a_question :last
       response.should redirect_to(spree.finish_questionnaire_path)
+    end
+
+    it "parses data for test" do
+      answer_a_question :last
+      expect(assigns[:parsed]).to_not be_empty
+    end
+
+    it "result data follows answers order" do
+      questionnaire = create :questionnaire_with_question_option
+      @answers = {}
+      qo2 = questionnaire.question_options.where(code: 'two').first
+      qo1 = questionnaire.question_options.where(code: 'one').first
+      # TODO stored second first so order will have to be switched (NOT VALID NOW, NEEDS 3)
+      #@answers.store qo2.id, 2
+      @answers.store qo1.id.to_s, "1"
+      put :update, {
+        "id" => qo2.question.id,
+        "question"=>{
+          "question_options_attributes" => {
+            "0" => {
+              "id" => qo2.id,
+              "question_option_answers_attributes" => {
+                "0" => { "answer" => 2 }
+              }
+            }
+          }
+        }
+      },# request
+      { :questionnaire_answers => @answers }# session
+      expect(assigns[:parsed]).to eq ["1", "2"]
+      expect(assigns[:result]).to eq true
     end
 
     it "validates" do

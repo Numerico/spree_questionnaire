@@ -36,7 +36,7 @@ describe "::integration tests::" do
     current_path.should eq spree.finish_questionnaire_path
   end
 
-  context "(encapsulated data)" do
+  context "common inputs" do
 
     before :each do
       questionnaire = create :questionnaire
@@ -60,7 +60,6 @@ describe "::integration tests::" do
       log_in
       current_path.should eq spree.finish_questionnaire_path
       expect(user.reload.question_option_answers).to_not be_empty
-      expect(user.questionnaire_result).to_not be_nil
     end
   
     it "associates user at each question when logged in" do
@@ -86,10 +85,15 @@ describe "::integration tests::" do
 
   end
 
-    it "updates answers for user when he repeats them" do
+  context "valid results" do
+
+    before :each do
       questionnaire = create :questionnaire
       create :question_with_int, questionnaire_id: questionnaire.id, position: 1
       create :question_with_int, questionnaire_id: questionnaire.id, position: 2
+    end
+
+    it "updates answers for user when he repeats them" do
       visit spree.login_path
       log_in
       # first time
@@ -112,5 +116,18 @@ describe "::integration tests::" do
       # using latest
       expect(user.reload.questionnaire_result).to eq "false"
     end
+
+    it "doesn't ask for login on error result" do
+      visit spree.questionnaire_path
+      click_link 'Start'
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '3'
+      click_button 'Update Question'
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '3'
+      click_button 'Update Question'
+      current_path.should eq spree.finish_questionnaire_path
+      find('#questionnaire-result').should have_content 'ERROR'
+    end
+
+  end
 
 end

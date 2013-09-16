@@ -7,7 +7,7 @@ class QuestionnaireResult
   TRAINING_DATA = "config/spree_questionnaire_result.yml"
 
   # TODO HOW TO INITIALIZE IT ONCE PER APP
-  # SINGLETON GETS RECREATED AT EACH REQUEST
+  # (SINGLETON GETS RECREATED AT EACH REQUEST)
   def initialize
     if File.exist? TRAINING_DATA
       data = YAML.load_file TRAINING_DATA
