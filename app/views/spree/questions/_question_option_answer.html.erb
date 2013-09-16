@@ -15,7 +15,10 @@
   <%= fff.input :answer, :collection => question_option.value, :as => :radio_buttons, :checked => question_option.value.first %>
 <% elsif question_option.instance_of?(QuestionOptionRange) %>
   <%= fff.input :answer, :as => :range, :input_html => { :step => 1, :min => question_option.value.keys.first, :max => question_option.value.keys.last } %>
-  <%= fff.input :answer, :collection => question_option.value, :label_method => :second, :value_method => :first, :disabled => true, :input_html => { :style => "display: none" } %>
+  <%= fff.input :answer, :collection => question_option.value, :label_method => :second, :value_method => :first,
+                :disabled => true,
+                :input_html => { :style => "display: none" },
+                :wrapper_html => { :class => "fallback" } %>
 <% else %>
   <%= fff.input :answer %>
 <% end %>
