@@ -125,7 +125,6 @@ describe "::integration tests::" do
       fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '3'
       click_button 'Update Question'
       current_path.should eq spree.finish_questionnaire_path
-      find('#questionnaire-result').should have_content 'ERROR'
     end
 
   end

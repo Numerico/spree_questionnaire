@@ -30,21 +30,40 @@ describe "questionnaire/finish.html.erb" do
   end
 
   context "logged in" do
-    before { sign_in }
-    it "shows result" do
-      questionnaire = create :questionnaire_with_question_option
-      #populate answers
+    before :each do
+      sign_in
+      questionnaire = create :questionnaire_with_question_option_3
       visit spree.questionnaire_path
       click_link 'Start'
+    end
+
+    it "shows result" do
+      #populate answers
       fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '1'
-      click_button 'Update Question'#1
+      click_button 'Update Question'# 1
       fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '1'
-      click_button 'Update Question'#1
+      click_button 'Update Question'# 2
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '1'
+      click_button 'Update Question'# 3
       #
       expect(user.reload.questionnaire_result).to eq "true"
       page.should have_selector '#questionnaire-result-wrapper'
       find('#questionnaire-result-wrapper #questionnaire-result').should have_content user.questionnaire_result
     end
+
+    it "asks mail if error" do
+      # populate answers
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '3'
+      click_button 'Update Question'# 1
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '3'
+      click_button 'Update Question'# 2
+      fill_in 'question[question_options_attributes][0][question_option_answers_attributes][0][answer]', :with => '3'
+      click_button 'Update Question'# 3
+      # tests
+      page.should have_selector '#questionnaire-result-wrapper #questionnaire-form form'
+      page.should have_selector '#questionnaire-result-wrapper #questionnaire-form form input[type="submit"]'
+    end
+
   end
 
 end

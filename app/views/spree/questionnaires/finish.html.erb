@@ -1,3 +1,13 @@
 <div id="questionnaire-result-wrapper">
-  <span id="questionnaire-result"><%= session[:result] %></span>
+  <% unless session[:result] == 'ERROR' %>
+    <span id="questionnaire-result"><%= session[:result] %></span>
+  <% else %>
+    <div id="questionnaire-form">
+      <%= form_for notify_questionnaire_path do |f| %>
+        <%= f.email_field :email, placeholder: Spree.t(:email) %>
+        <br />
+        <%= f.submit %>
+      <% end %>
+    </div>
+  <% end %>
 </div>
