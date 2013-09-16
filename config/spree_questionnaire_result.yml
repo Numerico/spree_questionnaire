@@ -5,24 +5,30 @@
 attributes:
   - 'one'
   - 'two'
+  - 'three'
 
 # this is the data
-# each list mus have as many items as there are columns
+# each list must have as many items as there are columns
 # more the combination result
 training:
   - - '1'# attributes 1
     - '1'# attributes 2
+    - '1'# attributes 3
     - true # result
-    # idem..
+  # idem..
   - - '1'
     - '2'
+    - '1'
     - true
   - - '2'
+    - '1'
     - '1'
     - false
   - - '2'
     - '2'
+    - '2'
     - true
   - - '3'
+    - '3'
     - '3'
     - 'ERROR'

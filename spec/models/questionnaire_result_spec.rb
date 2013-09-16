@@ -11,7 +11,7 @@ describe QuestionnaireResult do
   context "simple data" do
     it "loads from config/spree_questionnaire_result.yml" do
       qr  = QuestionnaireResult.new
-      expect(qr.tree_attributes.count).to eq 2
+      expect(qr.tree_attributes.count).to eq 3
       expect(qr.training.count).to eq 5
     end
     it "uses decisiontree gem" do

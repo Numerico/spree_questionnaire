@@ -126,27 +126,29 @@ describe Spree::QuestionsController do
 
     it "result data follows answers order" do
       questionnaire = create :questionnaire_with_question_option
+      q3 = create :question, questionnaire_id: questionnaire.id
+      qo3 = create :question_option, code: 'three', question_id: q3.id
       @answers = {}
       qo2 = questionnaire.question_options.where(code: 'two').first
       qo1 = questionnaire.question_options.where(code: 'one').first
-      # TODO stored second first so order will have to be switched (NOT VALID NOW, NEEDS 3)
-      #@answers.store qo2.id, 2
+      @answers.store qo2.id.to_s, "2"
       @answers.store qo1.id.to_s, "1"
       put :update, {
-        "id" => qo2.question.id,
+        "id" => qo3.question.id,
         "question"=>{
           "question_options_attributes" => {
             "0" => {
-              "id" => qo2.id,
+              "id" => qo3.id,
               "question_option_answers_attributes" => {
-                "0" => { "answer" => 2 }
+                "0" => { "answer" => 1 }
               }
             }
           }
         }
       },# request
       { :questionnaire_answers => @answers }# session
-      expect(assigns[:parsed]).to eq ["1", "2"]
+      expect(@answers.values).to eq ["2", "1", "1"]
+      expect(assigns[:parsed]).to eq ["1", "2", "1"]
       expect(assigns[:result]).to eq true
     end
 
