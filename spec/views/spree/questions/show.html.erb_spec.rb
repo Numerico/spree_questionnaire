@@ -96,10 +96,9 @@ describe "questions/show.html.erb" do
       visit spree.questionnaire_question_path question
       question_option = question.question_options.first
       within "#wrapper" do
-        page.should have_selector 'select[disabled="disabled"]'
+        page.should have_selector 'select[disabled]', visible: false
         question_option.value.each do |k, v|
-          page.should have_selector "select option[value='#{k}']"
-          find("select option[value='#{k}']").should have_content v
+          find("select option[value='#{k}']", visible: false).text(:all).should eq v # :all because it is invisible
         end
       end
     end
