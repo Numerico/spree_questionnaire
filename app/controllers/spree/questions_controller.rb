@@ -4,6 +4,7 @@ class Spree::QuestionsController < Spree::StoreController
 
   def show
     @question.question_options.each {|option| option.question_option_answers.build }
+    @ordered_options = @question.question_options.order("position ASC")
   end
 
   def update

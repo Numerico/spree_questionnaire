@@ -188,6 +188,16 @@ describe "questions/show.html.erb" do
       end
     end
 
+    it "can display question options sorted" do
+      question = create :questions_with_positions
+      visit spree.questionnaire_question_path question
+      within "#wrapper" do
+        # note how first and last are inverted, meaning it must have ordered them by position
+        find("#question_question_options_attributes_0_id").value.should eq question.question_options.last.id.to_s
+        find("#question_question_options_attributes_1_id").value.should eq question.question_options.first.id.to_s
+      end
+    end
+
   end
 
 end

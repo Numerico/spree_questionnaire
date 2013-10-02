@@ -11,7 +11,7 @@
     </div>
     <div  class="question-form">
       <h1><%= @question.text %></h1>
-      <%= f.simple_fields_for :question_options do |ff| %>
+      <%= f.simple_fields_for :question_options, @ordered_options do |ff| %>
         <% new_answer = ff.object.question_option_answers.build %>
         <%= ff.simple_fields_for :question_option_answers, new_answer do |fff| %>
           <%= render :partial => 'question_option_answer', :locals => { :fff => fff } %>

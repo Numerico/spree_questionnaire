@@ -69,6 +69,9 @@ FactoryGirl.define do
       factory :questions_with_hash do
         question_options { create_list :question_option_hash, 2 }
       end
+      factory :questions_with_positions do
+        question_options { create_list :question_option_position, 2 }
+      end
     end
   end
 
@@ -86,6 +89,10 @@ FactoryGirl.define do
     end
     factory :question_option_required do
       required true
+    end
+    factory :question_option_position do
+      sequence(:position) { |n| 10 - n } # decreasing in order to invert it
+      value { position }
     end
   end
   factory :question_option_integer do
