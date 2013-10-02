@@ -150,6 +150,15 @@ describe "questions/show.html.erb" do
       end
     end
 
+    it "doesnt link back to questionnaire if is first but questionnaire has no introduction" do
+      questionnaire = create :questionnaire_no_intro
+      question = questionnaire.questions.first
+      visit spree.questionnaire_question_path question
+      within "#wrapper" do
+        page.should_not have_selector 'div.question-form-before a[href="'+spree.questionnaire_path+'"]'
+      end
+    end
+
     it "shows validation errors" do
       questionnaire = create :questionnaire_with_question_option_required
       question = questionnaire.questions.first

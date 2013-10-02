@@ -5,7 +5,7 @@
     <div class="question-form-before">
       <% if !@question.is_first? %>
         <%= link_to back_txt, spree.questionnaire_question_path(@previous) unless @previous.nil? %>
-      <% else %>
+      <% elsif !@question.questionnaire.introduction.blank? %>
         <%= link_to back_txt, spree.questionnaire_path %>
       <% end %>
     </div>
